@@ -127,7 +127,7 @@ def description_to_image(img_name,descriptions_dict,img_directory_path = "",plot
                     column = current_state//img_size[0]
                     
                     # add defect number
-                    image[row][column]=defect_number+1
+                    image[row][column]=defect_number
     
                     
     #plot both of the images
