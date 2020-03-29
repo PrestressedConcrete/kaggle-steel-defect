@@ -142,3 +142,37 @@ def description_to_image(img_name,descriptions_dict,img_directory_path = "",plot
         plt.show()
     else:
         return image
+
+def description_to_image_4(img_name,descriptions_dict,img_directory_path = ""):
+
+    
+    'convert segmentation in csv file into numpy image'
+    
+    #image_size
+    img_size = (256,1600,4)
+
+    #initialize final list, 0 is the default value
+    image = np.zeros(img_size)
+    
+    #take values
+    caption_list = cp.deepcopy(descriptions_dict[img_name])
+    ## fill in the list from top to bottom, and left to right
+    #iterate on defects type
+    for defect_number in range(4):
+        #iterate on the lists of defects
+        for compteur,value in enumerate(caption_list[defect_number]):
+            # if pair : pixel, else : length
+            if (compteur%2==0):
+                # on remplis tous les autres jusqu'a defect size:
+                for compteur2 in range(caption_list[defect_number][compteur+1]):
+                    #take position of the pixel
+                    current_state = value-1+compteur2
+                    
+                    #convert into row and column (top to bottom and left to right)
+                    row = current_state%img_size[0]
+                    column = current_state//img_size[0]
+                    
+                    # add defect number
+                    image[row][column][defect_number]=1
+
+        return image
